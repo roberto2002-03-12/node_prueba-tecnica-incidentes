@@ -1,0 +1,11 @@
+# credenciales
+.env
+# dependencias
+node_modules
+# sql
+user_management.sql
+# dist
+dist
+# json
+User_Management.postman_collection.json
+privileges_default_data.json

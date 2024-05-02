@@ -1,0 +1,70 @@
+version: '3'
+# all images are on dockerhub
+services:
+  db:
+    container_name: mariadb-um
+    image: mariadb:jammy
+    volumes:
+      - mariadb-um:/var/lib/mysql
+    environment:
+      - MARIADB_USER=robdev
+      - MARIADB_PASSWORD=password
+      - MARIADB_ROOT_PASSWORD=password
+      - MARIADB_DATABASE=user_management
+    ports:
+      - 3306:3306
+    healthcheck:
+      test: ["CMD", "mysql", "-u", "robdev", "-p", "password", "-e", "USE user_management;"]
+      retries: 1
+
+  phpmyadmin:
+    container_name: phpmyadmin-um
+    image: phpmyadmin:latest
+    ports:
+      - 8080:80
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_USER=robdev
+      - PMA_PASSWORD=password
+  
+  api-um:
+    container_name: user-management-api
+    image: robertocg21dev/user-management-api-ts:latest
+    depends_on:
+      - db # wait for mariadb, otherwise it won't work
+    volumes:
+      - user-management-api:/usr/src/app
+    environment:
+      - NODE_ENV=environment
+      - PORT=3000
+      - DB_NAME=user_management
+      - DB_HOST=db
+      - DB_USER=robdev
+      - DB_PASS=password
+      - DB_PORT=3306
+      - JWT_SECRET=example
+      - EMAIL_ACCESS_KEY=
+      - EMAIL_SECRET_KEY=
+      - EMAIL_USE=
+      - EMAIL_SECURE=false
+      - EMAIL_HOST=smtp.gmail.com
+      - EMAIL_PORT=587
+    ports:
+      - 3000:3000
+  
+  web-um:
+    container_name: user-management-react
+    image: robertocg21dev/user-management-react-ts:latest
+    depends_on:
+      - api-um
+    environment:
+      - MY_APP_API=http://localhost:3000/api/v1/
+    volumes:
+      - user-management-react:/app
+    ports:
+      - 80:80
+
+volumes:
+  mariadb-um:
+  user-management-api:
+  user-management-react:
