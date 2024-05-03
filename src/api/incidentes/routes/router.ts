@@ -3,16 +3,18 @@ import { Router } from 'express';
 import {
   createIncidenteController, getAllIncidenteByQueriesController,
   deleteIncidenteController, getOneIncidenteByIdController,
-  updateIncidenteController
+  updateIncidenteController, getAllIncidenteByQueriesForClientsController
 } from '../controller/incidente.controller'
 
 import { validateMiddleware } from '../../../middlewares'
 import { checkCredentials } from '../../privileges/middleware/privileges.middleware'
 
 import { 
-  createIncidenteSchema, getByIdSchema,
-  updateIncidenteSchema, getAllIncidenteByQuerySchema
+  getByIdSchema, updateIncidenteSchema, 
+  getAllIncidenteByQuerySchema
 } from '../validation/incidente.validation'
+
+import { upload } from '../../../middlewares/images.middleware'
 
 export const router: Router = Router();
 
@@ -22,13 +24,18 @@ router.get(
   getAllIncidenteByQueriesController
 )
 router.get(
+  '/client',
+  validateMiddleware(getAllIncidenteByQuerySchema, 'query'),
+  getAllIncidenteByQueriesForClientsController
+)
+router.get(
   '/:id',
   validateMiddleware(getByIdSchema, 'params'),
   getOneIncidenteByIdController
 )
 router.post(
   '/',
-  validateMiddleware(createIncidenteSchema, 'body'),
+  upload.array('foto', 8),
   createIncidenteController
 )
 router.put(
@@ -42,3 +49,8 @@ router.delete(
   validateMiddleware(getByIdSchema, 'params'),
   deleteIncidenteController
 )
+// router.post(
+//   '/images',
+//   upload.array('foto', 8),
+//   tryImagesController
+// )

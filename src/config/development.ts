@@ -20,5 +20,10 @@ export const development: Development = {
   EMAIL_USE: process.env.EMAIL_USE!,
   EMAIL_HOST: process.env.EMAIL_HOST!,
   EMAIL_PORT: parseInt((process.env.EMAIL_PORT) ?? '587'),
-  EMAIL_SERVICE: process.env.EMAIL_SERVICE
+  EMAIL_SERVICE: process.env.EMAIL_SERVICE,
+
+  AWS_SECRET_KEY_S3: process.env.AWS_SECRET_KEY_S3!,
+  AWS_ACCESS_KEY_S3: process.env.AWS_ACCESS_KEY_S3!,
+  AWS_BUCKET_REGION_S3: process.env.AWS_BUCKET_REGION_S3!,
+  AWS_BUCKET_NAME_S3: process.env.AWS_BUCKET_NAME_S3!
 };

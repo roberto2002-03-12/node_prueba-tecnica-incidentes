@@ -1,5 +1,5 @@
 import { UserStatic } from '../../api/auth/model';
-import { RoleStatic, UserRoleStatic } from '../../api/privileges/model';
+import { RoleStatic } from '../../api/privileges/model';
 import { ProfileStatic } from '../../api/profile/model';
 
 export const userHasOneProfile = (

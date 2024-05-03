@@ -1,5 +1,6 @@
 import { BuildOptions, DataTypes, Model, Sequelize } from 'sequelize';
 import { CreateIncidente } from './incidente.dto'
+import { IFoto } from '../fotos/fotos.model';
 
 export type IncidenteEstadoType = 'progresando' | 'terminado' | 'pendiente';
 
@@ -17,6 +18,9 @@ export interface IIncidente {
   createdBy: number;
   updatedAt: Date;
   updatedBy: number;
+
+  // tabla relación
+  fotos?: IFoto[]
 }
 
 export interface IIncidenteQuery {

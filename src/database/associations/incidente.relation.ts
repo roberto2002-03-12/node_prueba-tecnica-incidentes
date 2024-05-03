@@ -28,20 +28,11 @@ export const departamentoAndBloqueOneToManyIncidente = (
     bloque: BloqueStatic;
   }
 ) => {
-  // departamento.hasMany(incidente, {
-  //   foreignKey: 'departamento_id',
-  //   as: 'departamento'
-  // });
 
   incidente.belongsTo(departamento, {
     foreignKey: 'departamento_id',
     as: 'departamento'
   });
-
-  // bloque.hasMany(incidente, {
-  //   foreignKey: 'bloque_id',
-  //   as: 'bloque'
-  // });
 
   incidente.belongsTo(bloque, {
     foreignKey: 'bloque_id',

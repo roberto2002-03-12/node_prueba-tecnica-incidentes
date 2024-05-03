@@ -1,10 +1,10 @@
 import { DataBase } from "../../../../database";
 import { Op } from 'sequelize';
-import { Includeable, WhereOptions } from 'sequelize/types';
+import { WhereOptions } from 'sequelize/types';
 import createHttpError from "http-errors";
 import { IIncidente, IIncidenteQuery } from '../../model'
 
-export const getAllIncidenteByQueriesService = async (queries: IIncidenteQuery) => {
+export const getAllIncidenteByQueriesService = async (queries: IIncidenteQuery, userId?: number) => {
   try {
     const offset = (queries.page - 1) * (queries.limit ?? 20);
 
@@ -23,6 +23,9 @@ export const getAllIncidenteByQueriesService = async (queries: IIncidenteQuery) 
 
     if (queries.bloqueId) whereOptions.bloqueId = queries.bloqueId
     if (queries.estado) whereOptions.estado = queries.estado
+
+    // los residentes solo deben ver sus incidencias, no de los demás.
+    if (userId) whereOptions.createdBy = userId;
 
     const { count, rows } = await DataBase.instance.incidente.findAndCountAll({
       where: whereOptions,

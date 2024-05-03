@@ -4,7 +4,7 @@ export interface IFoto {
   id?: number;
   fotoNombre: string;
   fotoUrl: string;
-  incidenteId: string;
+  incidenteId: number;
 }
 
 export interface IFotoModel extends Model<IFoto>, IFoto {};
