@@ -34,7 +34,6 @@ router.get(
 );
 router.get(
   '/departamento/select',
-  checkCredentials(['read-departamento']),
   getAllDepartamentoForSelectController
 );
 router.delete(
@@ -58,7 +57,6 @@ router.get(
 );
 router.get(
   '/bloque/select',
-  checkCredentials(['read-bloque']),
   getAllBloquesForSelectController
 );
 router.delete(
