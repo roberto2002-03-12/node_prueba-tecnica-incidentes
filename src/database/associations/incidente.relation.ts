@@ -11,9 +11,9 @@ export const userOneToManyIncidente = (
     incidente: IncidenteStatic 
   }
 ) => {
-  user.hasMany(incidente, {
+  incidente.belongsTo(user, {
     foreignKey: 'user_id',
-    as: 'incidente'
+    as: 'user'
   })
 }
 

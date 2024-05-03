@@ -37,7 +37,7 @@ export const getAllIncidenteByQueriesService = async (queries: IIncidenteQuery, 
       distinct: true
     });
 
-    return { count, rows }
+    return { count, page: queries.page, data: rows }
   } catch (error) {
     throw error;
   }
@@ -65,6 +65,21 @@ export const getOneIncidenteByIdService = async (id: number, userId?: number) =>
         model: DataBase.instance.foto,
         as: 'fotos',
         required: false
+      }, {
+        model: DataBase.instance.user,
+        as: 'user',
+        attributes: {
+          exclude: ['loggedToken', 'password', 'recoveryToken', 'created_by', 'created_at', 'updated_by', 'updated_at']
+        },
+        include: [{
+          model: DataBase.instance.profile,
+          as: 'profile',
+          attributes: {
+            exclude: ['created_by', 'created_at', 'updated_by', 'updated_at']
+          },
+          required: true
+        }],
+        required: true
       }]// agregar user y su profile
     });
 
