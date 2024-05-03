@@ -43,10 +43,16 @@ export const getAllIncidenteByQueriesService = async (queries: IIncidenteQuery, 
   }
 }
 
-export const getOneIncidenteByIdService = async (id: number) => {
+export const getOneIncidenteByIdService = async (id: number, userId?: number) => {
   try {
+    const whereOptions: WhereOptions<IIncidente> = {
+      id
+    };
+
+    if (userId) whereOptions.createdBy = userId;
+
     const incidente = await DataBase.instance.incidente.findOne({
-      where: { id },
+      where: whereOptions,
       include: [{
         model: DataBase.instance.departamento,
         as: 'departamento',

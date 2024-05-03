@@ -1,5 +1,5 @@
 import { PutObjectCommand, DeleteObjectsCommand } from '@aws-sdk/client-s3';
-import S3Client from '../../config/aws-s3'
+import S3Client from '../../utils/aws-s3/aws-s3'
 import config from '../../config'
 import { Buffer } from 'buffer'
 import { IFoto } from '../../api/incidentes/model';

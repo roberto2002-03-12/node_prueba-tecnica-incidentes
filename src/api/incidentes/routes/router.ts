@@ -1,56 +1,73 @@
 import { Router } from 'express';
 
 import {
-  createIncidenteController, getAllIncidenteByQueriesController,
-  deleteIncidenteController, getOneIncidenteByIdController,
-  updateIncidenteController, getAllIncidenteByQueriesForClientsController
+  getAllIncidenteByQueriesController, getOneIncidenteByIdController,
+  updateIncidenteController
 } from '../controller/incidente.controller'
+
+import {
+  createIncidenteController, deleteIncidenteController,
+  getAllIncidenteByQueriesForClientsController, getOneIncidenteByIdForClientController, 
+  updateIncidenteForClientController
+} from '../controller/incidente-cliente.controller'
 
 import { validateMiddleware } from '../../../middlewares'
 import { checkCredentials } from '../../privileges/middleware/privileges.middleware'
 
 import { 
   getByIdSchema, updateIncidenteSchema, 
-  getAllIncidenteByQuerySchema
+  getAllIncidenteByQuerySchema, updateStatusSchema
 } from '../validation/incidente.validation'
 
 import { upload } from '../../../middlewares/images.middleware'
 
 export const router: Router = Router();
 
+// admin side
 router.get(
   '/',
+  checkCredentials(['read-incidente']),
   validateMiddleware(getAllIncidenteByQuerySchema, 'query'),
   getAllIncidenteByQueriesController
 )
+router.get(
+  '/:id',
+  checkCredentials(['read-incidente']),
+  validateMiddleware(getByIdSchema, 'params'),
+  getOneIncidenteByIdController
+)
+router.put(
+  '/:id',
+  checkCredentials(['edit-incidente']),
+  validateMiddleware(getByIdSchema, 'params'),
+  validateMiddleware(updateStatusSchema, 'body'),
+  updateIncidenteController
+)
+
+// client side
 router.get(
   '/client',
   validateMiddleware(getAllIncidenteByQuerySchema, 'query'),
   getAllIncidenteByQueriesForClientsController
 )
 router.get(
-  '/:id',
+  '/client/:id',
   validateMiddleware(getByIdSchema, 'params'),
-  getOneIncidenteByIdController
+  getOneIncidenteByIdForClientController
 )
 router.post(
-  '/',
+  '/client',
   upload.array('foto', 8),
   createIncidenteController
 )
 router.put(
-  '/:id',
+  '/client/:id',
   validateMiddleware(getByIdSchema, 'params'),
   validateMiddleware(updateIncidenteSchema, 'body'),
-  updateIncidenteController
+  updateIncidenteForClientController
 )
 router.delete(
-  '/:id',
+  '/client/:id',
   validateMiddleware(getByIdSchema, 'params'),
   deleteIncidenteController
 )
-// router.post(
-//   '/images',
-//   upload.array('foto', 8),
-//   tryImagesController
-// )

@@ -30,6 +30,10 @@ export const updateIncidenteSchema = Joi.object({
   bloqueId: bloqueId.optional(),
 });
 
+export const updateStatusSchema = Joi.object({
+  estado: estado.required()
+});
+
 export const getAllIncidenteByQuerySchema = Joi.object({
   page: page.required(),
   limit: limit.optional(),

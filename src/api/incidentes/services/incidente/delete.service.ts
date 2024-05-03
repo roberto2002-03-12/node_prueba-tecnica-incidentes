@@ -1,9 +1,17 @@
 import createHttpError from "http-errors";
 import { DataBase } from "../../../../database";
 import { deleteImages } from '../../../../shared/services'
+import { IIncidente } from "../../model";
+import { WhereOptions } from "sequelize";
 
-export const deleteIncidenteService = async (id: number) => {
+export const deleteIncidenteService = async (id: number, userId?: number) => {
   try {
+    const whereOptions: WhereOptions<IIncidente> = {
+      id
+    };
+
+    if (userId) whereOptions.createdBy = userId;
+
     const incidente = await DataBase.instance.incidente.findOne({
       where: {
         id
