@@ -34,6 +34,7 @@ export const createIncidenteService = async (data: CreateIncidente, createdBy: n
 
     const incidente = await DataBase.instance.incidente.create({
       ...data,
+      estado: 'pendiente',
       createdBy,
       userId: createdBy,
       createdAt: new Date(dateNowFormat),

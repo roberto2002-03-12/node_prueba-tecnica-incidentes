@@ -13,7 +13,7 @@ import { CreateIncidente, IncidenteEstadoType } from '../model';
 export const createIncidenteController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const user = req.user as IToken;
-    
+    console.log(req.body.jsonStringify)
     const jsonParsed: CreateIncidente = JSON.parse(req.body.jsonStringify);
     const resultValidation = validateFromObject(createIncidenteSchema, jsonParsed);
     

@@ -16,7 +16,6 @@ const createdAtEnd = Joi.date();
 
 export const createIncidenteSchema = Joi.object({
   asunto: asunto.required(),
-  estado: estado.required(),
   detalle: detalle.required(),
   departamentoId: departamentoId.optional(),
   bloqueId: bloqueId.optional(),
