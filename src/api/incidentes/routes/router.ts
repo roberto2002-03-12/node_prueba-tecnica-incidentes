@@ -46,7 +46,7 @@ router.put(
 
 // client side
 router.get(
-  '/client',
+  '/client/all',
   validateMiddleware(getAllIncidenteByQuerySchema, 'query'),
   getAllIncidenteByQueriesForClientsController
 )
